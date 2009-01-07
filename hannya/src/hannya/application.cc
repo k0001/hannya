@@ -5,6 +5,8 @@ namespace Hannya {
 Application::Application(const std::string conf_dir)
     : _conf_dir(conf_dir)
 {
+    if (_conf_dir[_conf_dir.length() - 1] != '/')
+        _conf_dir += '/';
 }
 
 Application::~Application(void)
@@ -32,13 +34,22 @@ void Application::create_root(void)
 
 void Application::define_resources(void)
 {
-    /*
-    String sec_name, type_name, arch_name;
-    ConfigFile cf;
-    cf.load("resources.cfg");
-    */
-    std::cout << "Would load resources from: " << _conf_dir << "/resources.cfg"
-              << std::endl;
+    std::string sec_name, type_name, arch_name;
+    Ogre::ConfigFile cf;
+    cf.load(_conf_dir + "resources.cfg");
+    Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
+    while (seci.hasMoreElements()) {
+        sec_name = seci.peekNextKey();
+        Ogre::ConfigFile::SettingsMultiMap *settings = seci.getNext();
+        Ogre::ConfigFile::SettingsMultiMap::iterator i;
+        for (i = settings->begin(); i != settings->end(); ++i) {
+            type_name = i->first;
+            arch_name = i->second;
+            Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+                    arch_name, type_name, sec_name);
+        }
+    }
+
 }
 
 void Application::setup_render_system(void)
