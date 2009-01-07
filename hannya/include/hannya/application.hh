@@ -6,11 +6,13 @@ namespace Hannya {
 class Application
 {
     public:
-        Application(void) {}
-        ~Application(void) {}
+        Application(const std::string conf_dir);
+        Application(void);
+        ~Application(void);
         void go(void);
 
     private:
+        std::string _conf_dir;
         Ogre::Root *_root;
         OIS::Keyboard *_keyboard;
         OIS::Mouse *_mouse;

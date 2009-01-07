@@ -2,6 +2,16 @@
 
 namespace Hannya {
 
+Application::Application(const std::string conf_dir)
+    : _conf_dir(conf_dir)
+{
+}
+
+Application::~Application(void)
+{
+    delete _root;
+}
+
 void Application::go(void)
 {
     create_root();
@@ -17,10 +27,18 @@ void Application::go(void)
 
 void Application::create_root(void)
 {
+    _root = new Ogre::Root();
 }
 
 void Application::define_resources(void)
 {
+    /*
+    String sec_name, type_name, arch_name;
+    ConfigFile cf;
+    cf.load("resources.cfg");
+    */
+    std::cout << "Would load resources from: " << _conf_dir << "/resources.cfg"
+              << std::endl;
 }
 
 void Application::setup_render_system(void)
