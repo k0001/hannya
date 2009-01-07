@@ -14,6 +14,7 @@ class Application
     private:
         std::string _conf_dir;
         Ogre::Root *_root;
+        Ogre::RenderWindow *_win;
         OIS::Keyboard *_keyboard;
         OIS::Mouse *_mouse;
         OIS::InputManager *_input_manager;
