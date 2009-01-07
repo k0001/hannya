@@ -29,7 +29,8 @@ void Application::go(void)
 
 void Application::create_root(void)
 {
-    _root = new Ogre::Root();
+    _root = new Ogre::Root(_conf_dir + "plugins.cfg", _conf_dir + "ogre.cfg",
+            "ogre.log");
 }
 
 void Application::define_resources(void)
@@ -54,6 +55,9 @@ void Application::define_resources(void)
 
 void Application::setup_render_system(void)
 {
+    if (!_root->restoreConfig() && !_root->showConfigDialog())
+        throw Ogre::Exception(52, "User canceled the config dialog!",
+                "Application::setupRenderSystem()");
 }
 
 void Application::create_render_window(void)
